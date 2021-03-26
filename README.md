@@ -2,11 +2,6 @@
 
 This is the backend service for the portfolio frontend website for and by Mitchell Mullen.
 
-https://github.com/michalmullen/portfolio
+The project uses Swagger to test the Spring API in development using the following link:
 
-https://dazzling-swirles-e8ec1b.netlify.app/
-
-
-The project uses Swagger to test the Spring API using the following link:
-
-http://localhost:8080/swagger-ui.html#/
+http://localhost:8090/swagger-ui.html#/
