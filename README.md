@@ -1,4 +1,4 @@
-# imageapi
+# backend-api
 
 This is the backend service for the portfolio frontend website for and by Mitchell Mullen.
 
