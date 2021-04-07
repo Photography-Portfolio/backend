@@ -15,13 +15,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.File;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class ImageControllerIT {
+public class ImageControllerTest {
 
     @Autowired
     ImageController imageController;
@@ -80,7 +81,7 @@ public class ImageControllerIT {
         assertThat(image2.getDescription()).isEqualTo("string");
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void deleteImage() {
         MockMultipartFile multipartFile = new MockMultipartFile("data", "testimg.jpeg", "text/plain", "some xml".getBytes());
         ResponseEntity<Image> responseImage = imageController.addImage("NAME3", "DESC3", multipartFile);
