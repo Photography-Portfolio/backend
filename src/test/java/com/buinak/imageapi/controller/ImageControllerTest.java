@@ -16,6 +16,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -90,14 +91,15 @@ public class ImageControllerTest {
         assertThat(patchedImage.getDescription()).isEqualTo("string");
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected = HttpClientErrorException.class)
     public void deleteImage() {
         MockMultipartFile multipartFile = new MockMultipartFile("data", "testimg.jpeg", "text/plain", "some xml".getBytes());
         Image image = imageController.addImage("NAME3", "DESC3", multipartFile).getBody();
         assertThat(imageService.findImageByName("NAME3")).isNotNull();
 
-        restTemplate.delete(BASE_URL + "/images/" + image.getId());
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(BASE_URL + "/images/" + image.getId(), HttpMethod.DELETE, HttpEntity.EMPTY, Long.class);
+        ResponseEntity<Long> responseEntity2 = restTemplate.exchange(BASE_URL + "/images/" + image.getId(), HttpMethod.DELETE, HttpEntity.EMPTY, Long.class);
 
-        assertThat(imageController.deleteImageById(image.getId()).getStatusCodeValue()).isEqualTo(404);
+        assertThat(responseEntity2.getStatusCode()).isEqualTo(404);
     }
 }
