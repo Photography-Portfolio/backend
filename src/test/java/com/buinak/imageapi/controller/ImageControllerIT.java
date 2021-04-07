@@ -89,6 +89,6 @@ public class ImageControllerIT {
 
         assertThat(imageService.findImageByName("NAME3")).isNotNull();
         imageController.deleteImageById(id);
-        assertThat(imageService.findImageByName("NAME3")).isNull();
+        assertThat(imageController.findImageById(id).getStatusCodeValue()).isEqualTo(404);
     }
 }
