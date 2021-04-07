@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 
 @RunWith(SpringRunner.class)
@@ -95,11 +96,10 @@ public class ImageControllerTest {
     public void deleteImage() {
         MockMultipartFile multipartFile = new MockMultipartFile("data", "testimg.jpeg", "text/plain", "some xml".getBytes());
         Image image = imageController.addImage("NAME3", "DESC3", multipartFile).getBody();
-        assertThat(imageService.findImageByName("NAME3")).isNotNull();
 
-        ResponseEntity<Long> responseEntity = restTemplate.exchange(BASE_URL + "/images/" + image.getId(), HttpMethod.DELETE, HttpEntity.EMPTY, Long.class);
-        ResponseEntity<Long> responseEntity2 = restTemplate.exchange(BASE_URL + "/images/" + image.getId(), HttpMethod.DELETE, HttpEntity.EMPTY, Long.class);
+        restTemplate.exchange(BASE_URL + "/images/" + image.getId(), HttpMethod.DELETE, HttpEntity.EMPTY, Long.class);
+        restTemplate.exchange(BASE_URL + "/images/" + image.getId(), HttpMethod.DELETE, HttpEntity.EMPTY, Long.class);
 
-        assertThat(responseEntity2.getStatusCode()).isEqualTo(404);
+        fail("Test did not throw exception");
     }
 }
